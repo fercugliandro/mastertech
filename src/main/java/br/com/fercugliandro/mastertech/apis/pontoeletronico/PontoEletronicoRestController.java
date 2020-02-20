@@ -1,40 +1,34 @@
 package br.com.fercugliandro.mastertech.apis.pontoeletronico;
 
-import br.com.fercugliandro.mastertech.apis.usuarios.model.Usuario;
-import br.com.fercugliandro.mastertech.apis.usuarios.service.UsuarioService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.dto.PontoEletronicoDTO;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.model.PontoEletronico;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.service.PontoEletronicoService;
 
 @RestController
 @RequestMapping("/pontoeletronico")
 public class PontoEletronicoRestController {
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @GetMapping(path="/find")
-    public ResponseEntity<?> findAll() {
-
-        try {
-            List<Usuario> usuarios = usuarioService.findAll();
-            return new ResponseEntity<>(usuarios, HttpStatus.OK);
-        } catch (Exception e) {
-            String errorMessage;
-            errorMessage = e + " <== error";
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-    }
+    private PontoEletronicoService pontoEletronicoService;
 
     @GetMapping(path="/find/{idUsuario}")
     public ResponseEntity<?> findById(@PathVariable Long idUsuario) {
 
         try {
-            Usuario usuario = usuarioService.findById(idUsuario);
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            List<PontoEletronicoDTO> pontoEletronico = pontoEletronicoService.findByUser(idUsuario);
+            return new ResponseEntity<>(pontoEletronico, HttpStatus.OK);
         } catch (Exception e) {
             String errorMessage;
             errorMessage = e + " <== error";
@@ -42,25 +36,12 @@ public class PontoEletronicoRestController {
         }
     }
 
-    @PostMapping(path="/save", consumes="application/json")
-    public ResponseEntity<?> save(@RequestBody Usuario usuario) {
+    @PostMapping(path="/register", consumes="application/json")
+    public ResponseEntity<?> save(@RequestBody PontoEletronico pontoEletronico) {
 
         try {
-            Usuario user = usuarioService.save(usuario);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            String errorMessage;
-            errorMessage = e + " <== error";
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping(path="/save", consumes="application/json")
-    public ResponseEntity<?> edit(@RequestBody Usuario usuario) {
-
-        try {
-            Usuario user = usuarioService.save(usuario);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        	PontoEletronico ponto = pontoEletronicoService.save(pontoEletronico);
+            return new ResponseEntity<>(ponto, HttpStatus.OK);
         } catch (Exception e) {
             String errorMessage;
             errorMessage = e + " <== error";

@@ -73,4 +73,18 @@ public class Usuario implements Serializable {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+    
+    public void validarUsuario() {
+    	if (this.getCpf() == null || this.getCpf().isEmpty())
+    		throw new IllegalArgumentException("o CPF nao pode estar em branco");
+    	
+    	if (this.getEmail() == null || this.getEmail().isEmpty())
+    		throw new IllegalArgumentException("Email nao pode estar em branco");
+    	
+    	if (this.getNomeCompleto() == null || this.getNomeCompleto().isEmpty())
+    		throw new IllegalArgumentException("Nome Completo nao pode estar em branco");
+    	
+    	if (this.getDataCadastro() == null)
+    		throw new IllegalArgumentException("Data do Cadastro nao pode estar em branco");    	
+    }
 }

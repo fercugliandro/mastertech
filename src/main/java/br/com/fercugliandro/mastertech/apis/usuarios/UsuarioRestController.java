@@ -45,7 +45,9 @@ public class UsuarioRestController {
     @PostMapping(path="/save", consumes="application/json")
     public ResponseEntity<?> save(@RequestBody Usuario usuario) {
 
-        try {
+        try {        	        	        	
+        	usuario.validarUsuario();
+
             Usuario user = usuarioService.save(usuario);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
@@ -59,6 +61,8 @@ public class UsuarioRestController {
     public ResponseEntity<?> edit(@RequestBody Usuario usuario) {
 
         try {
+        	usuario.validarUsuario();
+        	
             Usuario user = usuarioService.save(usuario);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {

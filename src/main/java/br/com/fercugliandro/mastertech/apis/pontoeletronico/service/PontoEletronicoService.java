@@ -1,12 +1,14 @@
 package br.com.fercugliandro.mastertech.apis.pontoeletronico.service;
 
-import br.com.fercugliandro.mastertech.apis.usuarios.model.Usuario;
-
 import java.util.List;
+
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.dto.PontoEletronicoDTO;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.model.PontoEletronico;
 
 public interface PontoEletronicoService {
 
-    Usuario findById(Long idUsuario);
-
-    Usuario save(Usuario usuario);
+    PontoEletronico save(PontoEletronico pontoEletronico);
+    
+    List<PontoEletronicoDTO> findByUser(Long idUsuario);
+    
 }
