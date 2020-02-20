@@ -6,8 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.model.PontoEletronico;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.repository.PontoEletronicoRepository;
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.service.impl.PontoEletronicoServiceImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.verification.VerificationMode;
@@ -42,21 +47,26 @@ public class PontoEletronicoIntegratedTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
-	@MockBean
-	private PontoEletronicoService pontoEletronicoSerice;
-	
+	@Mock
+	private static PontoEletronicoService pontoEletronicoSerice;
+
+	@BeforeAll
+	static void setup() {
+		pontoEletronicoSerice = new PontoEletronicoServiceImpl();
+	}
+
 	@Test
 	void testFindByUser() throws JsonProcessingException, Exception {
 		List<PontoEletronicoDTO> dtos = new ArrayList<>();
-		PontoEletronicoDTO dto = new PontoEletronicoDTO();
-	
+		List<PontoEletronico> pontoEletronicosMock = new ArrayList<>();
 		Usuario u2 = new Usuario();
 		u2.setId(1L);
 		u2.setCpf("31625162855");
 		u2.setNomeCompleto("Fernando Cugliandro");
 		u2.setEmail("fernando.cugliandro@gmail.com");
 		u2.setDataCadastro(new Date());
-	
+
+		PontoEletronicoDTO dto = new PontoEletronicoDTO();
 		dto.setUsuario(u2);
 		dto.setPontoEletronico(new ArrayList<PontoEletronicoVO>());
 		dto.getPontoEletronico().add(new PontoEletronicoVO("20-02-2020", new ArrayList<>()));
@@ -81,5 +91,4 @@ public class PontoEletronicoIntegratedTest {
 
 		Mockito.verify(pontoEletronicoSerice, VerificationModeFactory.atLeastOnce()).findByUser(Mockito.anyLong());
 	}
-	
 }

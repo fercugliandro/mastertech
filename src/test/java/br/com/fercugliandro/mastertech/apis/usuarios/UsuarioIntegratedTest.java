@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.com.fercugliandro.mastertech.apis.pontoeletronico.service.impl.PontoEletronicoServiceImpl;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -40,9 +45,14 @@ public class UsuarioIntegratedTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
-	@MockBean(value = UsuarioServiceImpl.class)
-	private UsuarioService usuarioService;
-	
+	@Mock
+	private static UsuarioService usuarioService;
+
+	@BeforeAll
+	static void setup() {
+		usuarioService = new UsuarioServiceImpl();
+	}
+
 	@Test
 	void testFindAllUsers() throws JsonProcessingException, Exception {
 		List<Usuario> usuariosMock = new ArrayList<>();

@@ -24,11 +24,11 @@ import br.com.fercugliandro.mastertech.util.DateUtils;
 public class PontoEletronicoServiceImpl implements PontoEletronicoService {
 
     @Autowired
-    private PontoEletronicoRepository repository;
+    private PontoEletronicoRepository pontoEletronicoRepository;
 
     @Override
     public PontoEletronico save(PontoEletronico pontoEletronico) {	
-        return repository.saveAndFlush(pontoEletronico);
+        return pontoEletronicoRepository.saveAndFlush(pontoEletronico);
     }
 
 	@Override
@@ -37,9 +37,8 @@ public class PontoEletronicoServiceImpl implements PontoEletronicoService {
 		Usuario usuario = new Usuario();
 		usuario.setId(idUsuario);
 		
-		List<PontoEletronico> pontos = repository.findByUsuario(usuario);
-		
-		List<PontoEletronicoDTO> pontosEletronicos = null;
+		List<PontoEletronico> pontos = pontoEletronicoRepository.findByUsuario(usuario);
+
 		if (pontos != null && !pontos.isEmpty()) {			
 			return popularPontoEletronico(pontos);
 		}
